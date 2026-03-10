@@ -1,10 +1,10 @@
 package modelo;
 
-public class DatosSimulation {
+public class SolicitudResponse {
     private boolean done;
     private int tokenSolicitud;
     private String errorMessage;
-    private String data;
+    private boolean data;
 
     public boolean isDone() { return done; }
     public void setDone(boolean done) { this.done = done; }
@@ -15,6 +15,6 @@ public class DatosSimulation {
     public String getErrorMessage() { return errorMessage; }
     public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
 
-    public String getData() { return data; }
-    public void setData(String data) { this.data = data; }
+    public boolean isData() { return data; }
+    public void setData(boolean data) { this.data = data; }
 }

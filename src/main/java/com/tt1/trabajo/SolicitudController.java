@@ -1,5 +1,6 @@
 package com.tt1.trabajo;
 
+import modelo.DatosSimulation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,5 +69,17 @@ public class SolicitudController {
         	}
         }
         return "formResult";
+    }
+
+    @GetMapping("/grid")
+    public String grid(@RequestParam int tok, Model model) {
+        DatosSimulation datos = ics.descargarDatos(tok);
+        if (datos != null && datos.isDone()) {
+            model.addAttribute("gridData", datos.getData());
+            model.addAttribute("tok", tok);
+        } else {
+            model.addAttribute("error", "Datos no disponibles todavía");
+        }
+        return "grid";
     }
 }

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Grid</title>
+    <style>
+        table { border-collapse: collapse; margin-top: 20px; }
+        td { width: 40px; height: 40px; border: 1px solid #ccc; background-color: white; }
+        .red { background-color: red; }
+        .yellow { background-color: yellow; }
+        .blue { background-color: blue; }
+        .green { background-color: green; }
+    </style>
+</head>
+<body>
+<h2>Resultado de la simulación</h2>
+
+<div th:if="${error}">
+    <p th:text="${error}" style="color:red;"></p>
+</div>
+
+<div th:if="${gridData}">
+    <p>Token: <strong th:text="${tok}"></strong></p>
+    <table id="grid"></table>
+</div>
+
+<script th:if="${gridData}">
+    const raw = `[[${gridData}]]`;
+    const lines = raw.split('\n').filter(l => l.trim() !== '');
+    const size = parseInt(lines[0]);
+
+    // Crear matriz vacía
+    const grid = Array.from({length: size}, () => Array(size).fill('white'));
+
+    // Rellenar con el último estado (mayor tiempo)
+    for (let i = 1; i < lines.length; i++) {
+        const parts = lines[i].split(',');
+        if (parts.length === 4) {
+            const y = parseInt(parts[1]);
+            const x = parseInt(parts[2]);
+            const color = parts[3].trim();
+            if (y < size && x < size) {
+                grid[y][x] = color;
+            }
+        }
+    }
+
+    // Renderizar tabla
+    const table = document.getElementById('grid');
+    for (let row of grid) {
+        const tr = document.createElement('tr');
+        for (let color of row) {
+            const td = document.createElement('td');
+            td.className = color;
+            tr.appendChild(td);
+        }
+        table.appendChild(tr);
+    }
+</script>
+</body>
+</html>
